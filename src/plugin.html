@@ -1,14 +1,34 @@
 <plugin>
-
-	<b>This plugin will rock</b>
-
+	
 	<script>
+	
+	import map from '@windy/map'
+	
+	console.log('I am being mounted')
+	
+	let popup = null
 
-	console.log('I am mounted to the page')
+	this.onopen = () => {
+	
+		const center = map.getCenter()
+		
 
-	this.onopen = () => console.log('I am opened')
+		if( popup ) {
+			popup.setLatLng(center)
+		} else {
+			popup = L.popup()
+            		.setLatLng(center)
+            		.setContent("Hello world!!")
+            		.openOn( map );
+		}
+	}
+	
 
-	this.onclose = () => console.log('I am being closed')
-
+	this.onclose = () => {
+		if( popup ) {
+			map.removeLayer( popup )
+			popup = null
+		}
+	}
 	</script>
 </plugin>
